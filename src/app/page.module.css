@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
@@ -9,13 +9,20 @@
 
 .description {
   display: inherit;
-  justify-content: inherit;
-  align-items: inherit;
   font-size: 0.85rem;
   max-width: var(--max-width);
-  width: 100%;
   z-index: 2;
   font-family: var(--font-mono);
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 501px;
+
+  padding: 1rem;
+  background-color: white;
+  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  border-radius: var(--border-radius);
 }
 
 .description a {
@@ -28,10 +35,6 @@
 .description p {
   position: relative;
   margin: 0;
-  padding: 1rem;
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
-  border-radius: var(--border-radius);
 }
 
 .code {
@@ -97,7 +100,7 @@
 
 .center::before,
 .center::after {
-  content: '';
+  content: "";
   left: 50%;
   position: absolute;
   filter: blur(45px);
@@ -226,4 +229,40 @@
   to {
     transform: rotate(0deg);
   }
+}
+
+.searchField {
+  padding: 5px 8px;
+  border-radius: 24px;
+  border: 1px solid #cdced1;
+  font-size: 18px;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+}
+
+.searchField:focus {
+  border: 1px solid #cdced1 !important;
+}
+
+.searchButton {
+  border: 1px solid #f8f9fa;
+  border-radius: 4px;
+  background-color: #0080ff;
+  color: white;
+  font-family: arial, sans-serif;
+  font-size: 14px;
+  margin: 11px 4px;
+  padding: 0 16px;
+  line-height: 27px;
+  height: 36px;
+  min-width: 150px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.searchForms {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  justify-content: center;
+  align-items: center;
 }
