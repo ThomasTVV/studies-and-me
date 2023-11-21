@@ -1,29 +1,26 @@
 import Image from "next/image";
 import styles from "../../page.module.css";
-import {Octokit, App} from "octokit";
-import {Endpoints} from "@octokit/types";
-type User = Endpoints["GET /users/{username}"]["response"]["data"];
-
-async function getUser(username: string): Promise<User> {
-  const octokit = new Octokit();
-  const user = await octokit.request("GET /users/{username}", {
-    username: username,
-    headers: {
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
-
-  console.log("github user:", user.data);
-  return user.data;
-}
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faUsers} from "@fortawesome/free-solid-svg-icons";
+import {faCalendarDays} from "@fortawesome/free-solid-svg-icons/faCalendarDays";
+import {CommitList, RepoList} from "./ListItem";
+import {getUser, getPublicRepos, getPublicCommits} from "./githubApi";
+import type {User, PublicRepos, PublicCommits} from "./types";
 
 export default async function User({params}: any) {
   let user: User | null = null;
+  let public_repos: PublicRepos | null = null;
+  let public_commits: PublicCommits | null = null;
   let error: any = null;
 
   if (params?.username) {
     try {
-      user = await getUser(params.username);
+      const promises: Promise<any>[] = [];
+      promises.push(getUser(params.username));
+      promises.push(getPublicRepos(params.username));
+      promises.push(getPublicCommits(params.username));
+
+      [user, public_repos, public_commits] = await Promise.all(promises);
     } catch (err) {
       if (err instanceof Error) {
         error = err.message;
@@ -33,95 +30,50 @@ export default async function User({params}: any) {
     error = "No username in request.";
   }
 
+  if (error || !user) {
+    return (
+      <main className={styles.main}>
+        <div className={styles.description}>
+          <p style={{margin: "20px"}}>{error}</p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          {user && user.followers}
-          {error && error}
-          Get started by editinggggggggggg&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
+      <div className={styles.description} style={{width: 1100}}>
         <Image
           className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
+          src={user.avatar_url}
+          alt="Github Logo"
+          width={100}
+          height={100}
           priority
         />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <h1 style={{margin: 20}}>{user.login}</h1>
+        <p>
+          <FontAwesomeIcon icon={faUsers} /> {user.followers} followers,
+          following {user.following}&nbsp;&nbsp; - &nbsp;&nbsp;
+          <FontAwesomeIcon icon={faCalendarDays} /> Member since{" "}
+          {user.created_at.split("T")[0]}
+        </p>
+        <div className={styles.userInfoContainer}>
+          <div className={styles.width40p}>
+            <h2>Public Repositories:</h2>
+            <br />
+            <ul className={styles.infoList}>
+              <RepoList public_repos={public_repos} />
+            </ul>
+          </div>
+          <div className={styles.width40p}>
+            <h2>Last Public Commits:</h2>
+            <br />
+            <ul className={styles.infoList}>
+              <CommitList public_commits={public_commits} />
+            </ul>
+          </div>
+        </div>
       </div>
     </main>
   );
