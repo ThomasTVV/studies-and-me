@@ -34,6 +34,7 @@ export default async function User({params}: any) {
   if (error || !user) {
     return (
       <main className={styles.main}>
+        <SearchForm showSubmitBtn={false} autoFocus={false} />
         <div className={styles.description}>
           <p style={{margin: "20px"}}>
             {error}
