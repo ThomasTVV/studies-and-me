@@ -3,6 +3,7 @@
 import {redirect, useRouter} from "next/navigation";
 import {useState} from "react";
 import styles from "./page.module.css";
+import SearchFormHint from "./SearchFormHint";
 
 export default function SearchForm({
   showSubmitBtn = true,
@@ -29,18 +30,21 @@ export default function SearchForm({
 
   return (
     <form onSubmit={search} className={styles.searchForms}>
-      <input
-        type="text"
-        placeholder="Github username..."
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        className={styles.searchField}
-        autoFocus={autoFocus}
-      />
+      <div style={{position: "relative"}}>
+        <input
+          type="text"
+          placeholder="Github username..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className={styles.searchField}
+          autoFocus={autoFocus}
+        />
+        <SearchFormHint input={input} />
+      </div>
       <br />
       {showSubmitBtn && (
         <button type="submit" className={styles.searchButton}>
-          Search
+          Show
         </button>
       )}
       {error != "" && (

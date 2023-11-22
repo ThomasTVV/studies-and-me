@@ -25,7 +25,7 @@ describe("Home", () => {
   it("Show error if submit button is clicked without user input", async () => {
     render(<Home />);
 
-    const btn = screen.getByRole("button", {name: /search/i});
+    const btn = screen.getByRole("button", {name: /show/i});
     userEvent.click(btn);
 
     await waitFor(() => {

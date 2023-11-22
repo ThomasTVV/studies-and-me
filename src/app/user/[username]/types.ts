@@ -5,3 +5,4 @@ export type PublicRepos =
   Endpoints["GET /users/{username}/repos"]["response"]["data"];
 export type PublicCommits =
   Endpoints["GET /search/commits"]["response"]["data"];
+export type SearchHints = Endpoints["GET /search/users"]["response"]["data"];

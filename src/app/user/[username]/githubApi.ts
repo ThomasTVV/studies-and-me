@@ -37,3 +37,16 @@ export async function getPublicCommits(username: string) {
 
   return res.data;
 }
+
+export async function getSearchHints(username: string) {
+  const octokit = new Octokit();
+  const res = await octokit.request("GET /search/users", {
+    q: username,
+    per_page: 5,
+    headers: {
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
+  });
+
+  return res.data;
+}

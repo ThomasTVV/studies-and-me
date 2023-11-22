@@ -12,7 +12,7 @@
   display: inherit;
   font-size: 0.85rem;
   max-width: var(--max-width);
-  z-index: 2;
+  z-index: 0;
   font-family: var(--font-mono);
 
   flex-direction: column;
@@ -182,6 +182,8 @@
   border: 1px solid #cdced1;
   font-size: 18px;
   box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  z-index: 2;
+  position: relative;
 }
 
 .searchField:focus {
@@ -206,10 +208,10 @@
 
 .searchForms {
   display: flex;
-  flex-direction: column;
   margin-top: 40px;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .userInfoContainer {
@@ -241,4 +243,25 @@ ul.infoList {
 
 .bold {
   font-weight: bold;
+}
+
+/*searchformhint */
+.searchHintContainer {
+  width: 100%;
+  padding: 10px;
+  position: absolute;
+  top: 20px;
+  padding-top: 15px;
+  z-index: 1;
+  background-color: white;
+  border-radius: 0 0 15px 15px;
+  border: 1px solid #cdced1;
+}
+
+.searchHintContainer ul {
+  list-style-type: none;
+}
+
+.searchHintContainer ul a {
+  justify-content: flex-start !important;
 }

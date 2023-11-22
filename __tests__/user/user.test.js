@@ -13,6 +13,16 @@ jest.mock("../../src/app/user/[username]/githubApi", () => ({
   },
   getPublicCommits: () => null,
   getPublicRepos: () => null,
+  getSearchHints: () => null,
+}));
+
+// Mock useRouter:
+jest.mock("next/navigation", () => ({
+  useRouter() {
+    return {
+      prefetch: () => null,
+    };
+  },
 }));
 
 describe("User", () => {
