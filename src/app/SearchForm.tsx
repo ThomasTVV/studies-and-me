@@ -4,7 +4,13 @@ import {redirect, useRouter} from "next/navigation";
 import {useState} from "react";
 import styles from "./page.module.css";
 
-export default function SearchForm() {
+export default function SearchForm({
+  showSubmitBtn = true,
+  autoFocus = true,
+}: {
+  showSubmitBtn?: boolean;
+  autoFocus?: boolean;
+}) {
   const [input, setInput] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
@@ -16,7 +22,7 @@ export default function SearchForm() {
       setError("No username provided.");
     } else {
       console.log("bør redirect!");
-      const path = `user/${input}`;
+      const path = `/user/${input}`;
       router.push(path);
     }
   }
@@ -29,12 +35,14 @@ export default function SearchForm() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         className={styles.searchField}
-        autoFocus={true}
+        autoFocus={autoFocus}
       />
       <br />
-      <button type="submit" className={styles.searchButton}>
-        Search
-      </button>
+      {showSubmitBtn && (
+        <button type="submit" className={styles.searchButton}>
+          Search
+        </button>
+      )}
       {error != "" && (
         <p style={{color: "red", textAlign: "center", padding: 10}}>{error}</p>
       )}

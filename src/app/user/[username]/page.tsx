@@ -6,6 +6,7 @@ import {faCalendarDays} from "@fortawesome/free-solid-svg-icons/faCalendarDays";
 import {CommitList, RepoList} from "./ListItem";
 import {getUser, getPublicRepos, getPublicCommits} from "./githubApi";
 import type {User, PublicRepos, PublicCommits} from "./types";
+import SearchForm from "@/app/SearchForm";
 
 export default async function User({params}: any) {
   let user: User | null = null;
@@ -46,6 +47,7 @@ export default async function User({params}: any) {
 
   return (
     <main className={styles.main}>
+      <SearchForm showSubmitBtn={false} autoFocus={false} />
       <div className={styles.description} style={{width: 1100}}>
         <Image
           className={styles.logo}
