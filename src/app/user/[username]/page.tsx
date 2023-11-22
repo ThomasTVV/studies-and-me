@@ -34,7 +34,11 @@ export default async function User({params}: any) {
     return (
       <main className={styles.main}>
         <div className={styles.description}>
-          <p style={{margin: "20px"}}>{error}</p>
+          <p style={{margin: "20px"}}>
+            {error}
+            <br />
+            Did you type a valid username?
+          </p>
         </div>
       </main>
     );
