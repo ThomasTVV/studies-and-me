@@ -20,7 +20,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - **Why Next.js?** Next.js makes it easy to make a fast, clean, and reliable webapp in react. Furthermore, it seamlessly implements dynamic routing.
 - **Octokit**. Github provides an SDK for interacting with their api called Octokit, which is used in this project, as it enables typescript to automatically infer the types, and it also makes error handling easier.
-- **Scope**. The app could also have implemented a search function - to search for users - but i think the current implementation fits the task-description better.
 
 ## Tests
 
